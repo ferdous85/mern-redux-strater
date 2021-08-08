@@ -47,9 +47,31 @@ const RegisterScreen = () => {
       }
     }
   }
+const API='https://api.cloudinary.com/v1_1/dbecommerce/image/upload'
+ 
+const postDetails =(pics)=>{
+    if(!pics) {
+      return setPicMessage('Please select an image')
+    }
+    setPicMessage(null)
 
-  const postDetails =()=>{
+    if(pics.type === 'image/jpeg' || pics.type === 'image/png') {
+      const data = new FormData()
+      data.append('file', pics)
+      data.append('upload_preset','reduxDB')
+      data.append('cloud_name','dbecommerce')
+      fetch(API, {
+        method:'post',
+        body:data,
 
+      }).then((res)=>res.json()).then((data)=>{
+        console.log(data)
+        setPic(data.url.toString())
+      })
+
+    } else{
+      return setPicMessage('Please Select JPEG or PNG')
+    }
 }
   
 
@@ -97,7 +119,11 @@ const RegisterScreen = () => {
               onChange={(e) => setConfirmPassword(e.target.value)}
             />
           </Form.Group>
-
+          {
+            picMessage && (
+              <ErrorMessage variant='danger'> {picMessage} </ErrorMessage> 
+            )
+          }
 
           <Form.Group controlId="pic">
             <Form.Label>Profile Picture</Form.Label>
