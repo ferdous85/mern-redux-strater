@@ -70,7 +70,7 @@ const postDetails =(pics)=>{
   return (
     <MainScreen title='REGISTER' >
         <div className="loginContainer">
-        {/* {error && <ErrorMessage variant="danger">{error}</ErrorMessage>} */}
+        {error && <ErrorMessage variant="danger">{error}</ErrorMessage>}
         {message && <ErrorMessage variant="danger">{message}</ErrorMessage>}
         {loading && <Loading />}
         <Form onSubmit={submitHandler}>
