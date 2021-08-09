@@ -6,7 +6,7 @@ import ErrorMessage from '../../components/ErrorMessage'
 import Loading from '../../components/Loading'
 import { useDispatch, useSelector } from 'react-redux'
 import { register } from '../../actions/userActions'
-
+import './RegisterScreen.css'
 const RegisterScreen = () => {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
