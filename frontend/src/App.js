@@ -7,6 +7,7 @@ import { BrowserRouter, Route } from 'react-router-dom'
 import MyNotes from './screens/MyNotes/MyNotes';
 import LoginScreen from './screens/LoginScreen/LoginScreen';
 import RegisterScreen from './screens/RegisterScreen/RegisterScreen';
+import CreateNote from './screens/CreateNote/CreateNote';
 function App() {
   return (
     <>
@@ -16,6 +17,7 @@ function App() {
         <Route exact path='/' component={LandingPage} />
         <Route exact path='/login' component={LoginScreen} />
         <Route exact path='/register' component={RegisterScreen} />
+        <Route exact path='/createnote' component={CreateNote} />
         <Route path='/mynotes' component={()=><MyNotes />} />
         
       </main>     

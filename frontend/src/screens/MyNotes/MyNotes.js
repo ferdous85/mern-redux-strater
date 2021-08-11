@@ -15,7 +15,7 @@ const dispatch = useDispatch()
 const noteList = useSelector(state => state.noteList)
 const userLogin = useSelector(state => state.userLogin)
 
-const userInfo = userInfo
+const userInfo = userLogin
 const {loading, notes, error} = noteList
 
 
@@ -36,7 +36,7 @@ console.log(notes);
   }, [dispatch])
 
   return (
-    <MainScreen title={`Welcome ${userInfo.name}`} >
+    <MainScreen title={`Welcome ${userInfo && userInfo.name}`} >
       <Link to='/createnote'>
         <Button>
           Create New Note
@@ -44,7 +44,7 @@ console.log(notes);
         </Link>
         {error && <ErrorMessage variant="danger">{error}</ErrorMessage>}
         {loading && <Loading />}
-        {notes?.map(note=>(
+        {notes?.reverse().map(note=>(
           <Accordion key={note._id}>
            <Card style={{margin:10}}>
            <Card.Header style={{display:'flex'}} >
