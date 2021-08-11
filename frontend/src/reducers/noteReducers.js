@@ -1,4 +1,4 @@
-import { NOTES_CREATE_FAIL, NOTES_CREATE_SUCCESS, NOTES_LIST_FAIL, NOTES_LIST_SUCCESS, NOTES_LIST_REQUEST, NOTES_CREATE_REQUEST } from "../constants/noteConstants"
+import { NOTES_CREATE_FAIL, NOTES_CREATE_SUCCESS, NOTES_LIST_FAIL, NOTES_LIST_SUCCESS, NOTES_LIST_REQUEST, NOTES_CREATE_REQUEST, NOTES_UPDATE_REQUEST, NOTES_UPDATE_SUCCESS, NOTES_UPDATE_FAIL, NOTES_DELETE_REQUEST, NOTES_DELETE_SUCCESS, NOTES_DELETE_FAIL } from "../constants/noteConstants"
 
 
 export const noteListReducer = (state={notes: []}, action) =>{
@@ -27,4 +27,30 @@ export const noteCreatetReducer = (state={}, action) =>{
   }
 }
 
+export const noteUpdateReducer = (state={}, action) =>{
+  switch (action.type) {
+    case NOTES_UPDATE_REQUEST:
+      return {loading:true}
+    case NOTES_UPDATE_SUCCESS:
+      return {loading:false, success: true}
+    case NOTES_UPDATE_FAIL:
+      return {loading:false, error: action.payload, success: false} 
+     default:
+      return state 
+  }
+}
+
+
+export const noteDleteReducer = (state={}, action) =>{
+  switch (action.type) {
+    case NOTES_DELETE_REQUEST:
+      return {loading:true}
+    case NOTES_DELETE_SUCCESS:
+      return {loading:false, success: true}
+    case NOTES_DELETE_FAIL:
+      return {loading:false, error: action.payload, success: false} 
+     default:
+      return state 
+  }
+}
 

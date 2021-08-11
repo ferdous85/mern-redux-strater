@@ -3,7 +3,7 @@ import { Link, useHistory } from 'react-router-dom'
 import { Accordion, Button, Card } from 'react-bootstrap'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { listNotes } from '../../actions/notesActions'
+import { listNotes, deleteNoteAction } from '../../actions/notesActions'
 import Loading from '../../components/Loading'
 import ErrorMessage from '../../components/ErrorMessage'
 
@@ -13,16 +13,28 @@ const history = useHistory()
 
 const dispatch = useDispatch()
 const noteList = useSelector(state => state.noteList)
-const userLogin = useSelector(state => state.userLogin)
-
-const userInfo = userLogin
 const {loading, notes, error} = noteList
 
+const userLogin = useSelector(state => state.userLogin)
+const userInfo = userLogin
+
+const noteCreate = useSelector((state) => state.noteCreate);
+  const { success: successCreate } = noteCreate;
+
+  const noteUpdate = useSelector((state) => state.noteUpdate);
+  const { success:successUpdate } = noteUpdate;
+
+  const noteDelete = useSelector((state) => state.noteDelete);
+  const {
+    loading: loadingDelete,
+    error: errorDelete,
+    success: successDelete,
+  } = noteDelete;
 
 
-const deleteHandler = ()=>{
+const deleteHandler = (id)=>{
     if(window.confirm('Are you sure?')) {
-       
+       dispatch(deleteNoteAction(id))
     }
   }
 
@@ -33,7 +45,7 @@ console.log(notes);
     if(!userInfo) {
       history.push('/')
     }
-  }, [dispatch])
+  }, [dispatch, successCreate, history, userInfo, successUpdate, successDelete])
 
   return (
     <MainScreen title={`Welcome ${userInfo && userInfo.name}`} >
@@ -42,6 +54,10 @@ console.log(notes);
           Create New Note
         </Button>
         </Link>
+        {errorDelete && (
+          <ErrorMessage variant="danger">{errorDelete}</ErrorMessage>
+        )}
+        {loadingDelete && <Loading />}
         {error && <ErrorMessage variant="danger">{error}</ErrorMessage>}
         {loading && <Loading />}
         {notes?.reverse().map(note=>(
