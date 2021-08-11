@@ -1,34 +1,50 @@
 import MainScreen from '../../components/MainScreen'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import { Accordion, Button, Card } from 'react-bootstrap'
-import { useEffect, useState } from 'react'
-import axios from 'axios'
+import { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { listNotes } from '../../actions/notesActions'
+import Loading from '../../components/Loading'
+import ErrorMessage from '../../components/ErrorMessage'
 
 const MyNotes = () => {
-const [notes, setNotes]= useState([])
-  const deleteHandler = ()=>{
+
+const history = useHistory()
+
+const dispatch = useDispatch()
+const noteList = useSelector(state => state.noteList)
+const userLogin = useSelector(state => state.userLogin)
+
+const userInfo = userInfo
+const {loading, notes, error} = noteList
+
+
+
+const deleteHandler = ()=>{
     if(window.confirm('Are you sure?')) {
        
     }
   }
-    const fetchNotes = async()=>{
-      const {data} = await axios.get('/api/notes')
-        setNotes(data);
-    }
+
 console.log(notes);
 
   useEffect(()=>{
-    fetchNotes()
-  }, [])
+    dispatch(listNotes())
+    if(!userInfo) {
+      history.push('/')
+    }
+  }, [dispatch])
 
   return (
-    <MainScreen title='Welcome John Doe ...' >
+    <MainScreen title={`Welcome ${userInfo.name}`} >
       <Link to='/createnote'>
         <Button>
           Create New Note
         </Button>
         </Link>
-        {notes.map(note=>(
+        {error && <ErrorMessage variant="danger">{error}</ErrorMessage>}
+        {loading && <Loading />}
+        {notes?.map(note=>(
           <Accordion key={note._id}>
            <Card style={{margin:10}}>
            <Card.Header style={{display:'flex'}} >
@@ -64,7 +80,9 @@ console.log(notes);
         {note.content}
       </p>
       <footer className="blockquote-footer">
-        Created On - Date
+        Created On {' '}
+        {note.createdAt.substring(0, 10)}
+
       </footer>
     </blockquote>
            </Card.Body>
